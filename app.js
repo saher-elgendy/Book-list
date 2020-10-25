@@ -5,7 +5,7 @@
       author: '',
       ISBN: ''
     },
-    errors:{},
+    errors: {},
   }
 
   const controller = {
@@ -52,7 +52,7 @@
           author: '',
           ISBN: ''
         },
-        errors: []
+        errors: {}
       }
     },
 
