@@ -25,7 +25,7 @@
     validateData: () => {
       const { currentBookData, errors } = model;
       const currentBookDataKeys = Object.keys(currentBookData);
-      
+
       currentBookDataKeys.forEach(key => {
         if (!currentBookData[key]) {
           errors[key] = `${key} cannot be empty`
@@ -42,7 +42,8 @@
         controller.warningMessage(errors.join(','), 'error')
 
       } else {
-        model.books.push(model.currentBookData)
+        const lastBookId = model.books.length;
+        model.books.push({ ...model.currentBookData, id: lastBookId + 1 })
         controller.addNewBook();
       }
 
@@ -76,15 +77,14 @@
     removeWarningMessage: function () {
       if (document.querySelector('.alert') !== null) {
         document.querySelector('.alert').remove();
-        clearTimeout(warningView.removeAfterThreeSeconds);
       }
     },
 
-    deleteBook: function (e) {
-      if (e.target.className === 'delete') {
-        e.target.parentElement.remove();
-        controller.warningMessage('Book deleted successfully', 'success')
-      }
+    deleteBook: (e) => {
+      const index  = model.books.findIndex(book => book.id === e.target.id)
+      model.books.splice(index, 1)
+      controller.warningMessage('Book deleted successfully', 'success');
+      resultView.render();
     }
   }
 
@@ -116,18 +116,20 @@
     },
 
     render: function () {
-      const { books } = model
-      const bookToAdd = books[books.length - 1];
-      const { title, author, ISBN } = bookToAdd;
+      resultView.bookList.innerHTML = '';
 
-      resultView.bookList.innerHTML += `
-      <tr>
-      <td>${title}</td>
-      <td>${author}</td>
-      <td>${ISBN}</td>
-      <td class="delete">X</td>
-      </tr>
-      `
+      model.books.forEach(book => {
+        const { title, author, ISBN, id } = book;
+        const tr = `
+            <tr >
+            <td>${title}</td>
+            <td>${author}</td>
+            <td>${ISBN}</td>
+            <td class="delete" id=${id}>X</td>
+            </tr>
+            `
+        resultView.bookList.innerHTML += tr
+      })
     }
   }
 
