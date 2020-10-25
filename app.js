@@ -1,6 +1,7 @@
 (() => {
   //our model
   let model = {
+    books: [],
     currentBookData: {
       title: '',
       author: '',
