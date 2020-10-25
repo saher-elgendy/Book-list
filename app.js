@@ -25,12 +25,13 @@
     validateData: () => {
       const { currentBookData, errors } = model;
       const currentBookDataKeys = Object.keys(currentBookData);
+      
       currentBookDataKeys.forEach(key => {
         if (!currentBookData[key]) {
           errors[key] = `${key} cannot be empty`
         }
       });
-      console.log(errors)
+
       return errors
     },
 
@@ -50,7 +51,7 @@
       })
 
       console.log(model)
-      
+
       model = {
         ...model,
         currentBookData: {
