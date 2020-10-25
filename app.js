@@ -48,7 +48,9 @@
       formView.bookInputs.forEach(input => {
         input.value = ''
       })
+
       console.log(model)
+      
       model = {
         ...model,
         currentBookData: {
