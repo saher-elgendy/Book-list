@@ -113,7 +113,8 @@
     },
 
     render: function () {
-      const { title, author, ISBN } = model.books[model.books.length - 1];
+      const bookToAdd = model.books[model.books.length - 1];
+      const { title, author, ISBN } = bookToAdd;
 
       resultView.bookList.innerHTML += `
       <tr>
