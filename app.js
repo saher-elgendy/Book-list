@@ -5,7 +5,7 @@
       author: '',
       ISBN: ''
     },
-    errors: [],
+    errors:{},
   }
 
   const controller = {
