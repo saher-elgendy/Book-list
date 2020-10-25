@@ -1,4 +1,5 @@
 (() => {
+  //our model
   let model = {
     books: [],
     currentBookData: {
@@ -6,14 +7,14 @@
       author: '',
       ISBN: ''
     },
-    errors: [],
+    errors: {},
   }
 
   const controller = {
     init: function () {
       formView.init();
     },
-
+    //fill the model field with input change
     handleChange: (e) => {
       model.currentBookData = {
         ...model.currentBookData,
@@ -29,31 +30,33 @@
           errors[key] = `${key} cannot be empty`
         }
       });
-
+      console.log(errors)
       return errors
     },
 
     handleSubmit: (e) => {
       e.preventDefault();
       const errors = Object.values(controller.validateData())
-
       if (errors.length) {
         controller.warningMessage(errors.join(','), 'error')
+
       } else {
+        model.books.push(model.currentBookData)
         controller.addNewBook();
       }
 
       formView.bookInputs.forEach(input => {
         input.value = ''
       })
-
+      console.log(model)
       model = {
+        ...model,
         currentBookData: {
           title: '',
           author: '',
           ISBN: ''
         },
-        errors: []
+        errors: {}
       }
     },
 
@@ -80,7 +83,7 @@
         controller.warningMessage('Book deleted successfully', 'success')
       }
     }
-  } 
+  }
 
   const formView = {
     init: function () {
@@ -88,7 +91,8 @@
       this.title = document.getElementById('title');
       this.author = document.getElementById('author');
       this.isbn = document.getElementById('isbn');
-      this.bookInputs = [...document.getElementsByClassName('book-input')]
+      this.bookInputs = [...document.getElementsByClassName('book-input')];
+
       this.render()
     },
 
@@ -109,7 +113,7 @@
     },
 
     render: function () {
-      const {title, author, ISBN} = model.currentBookData;
+      const { title, author, ISBN } = model.books[model.books.length - 1];
 
       resultView.bookList.innerHTML += `
       <tr>
